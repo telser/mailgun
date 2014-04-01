@@ -1,7 +1,8 @@
 name:                mailgun
 version:             0.1.0.0
--- synopsis:            
--- description:         
+synopsis:            Connector to Rackspace's Mailgun Service
+description:         Allows users to directly access Rackspace's Mailgun service
+                     without having to work with the underlying REST service.
 license:             MIT
 license-file:        LICENSE
 author:              Andrew Rademacher
