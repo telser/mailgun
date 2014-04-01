@@ -21,7 +21,6 @@ main = do
                     , bcc = Nothing
                     , subject = Just "Test Message"
                     , text = "Hello, this is a test message!" }
-        print $ buildBase message
         withManager $ \manager -> do
                 let sendW = sendWith manager
                 res1 <- sendW domain apiKey message

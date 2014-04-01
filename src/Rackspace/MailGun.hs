@@ -4,7 +4,11 @@
 {-# LANGUAGE RecordWildCards       #-}
 {-# LANGUAGE TemplateHaskell       #-}
 
-module Rackspace.MailGun where
+module Rackspace.MailGun
+    ( Message (..)
+    , sendMessage
+    , sendWith
+    ) where
 
 import           Control.Failure
 import           Control.Monad.IO.Class
