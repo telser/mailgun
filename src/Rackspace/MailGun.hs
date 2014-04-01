@@ -59,9 +59,6 @@ buildBase msg = partText "from" (from msg)
              ++ partMaybeText "subject" (subject msg)
              ++ buildTail msg
 
---sendMessage :: MonadIO m => String -> String -> Message -> m (Response ByteString)
---sendMessage :: (HttpException m, MonadIO m, MonadBaseControl IO m) =>
---                String -> String -> Message -> m (Response ByteString)
 sendMessage :: (Failure HttpException m, MonadBaseControl IO m, MonadIO m) =>
                 String -> String -> Message -> m (Response LBS.ByteString)
 sendMessage domain apiKey message = do
