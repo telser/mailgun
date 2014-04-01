@@ -68,3 +68,13 @@ sendMessage domain apiKey message = do
         res <- withManager $ \m -> flip httpLbs m =<<
             (formDataBody (buildBase message) postReq)
         return res
+
+sendWith :: (Failure HttpException m, MonadBaseControl IO m, MonadIO m) =>
+                Manager -> String -> String -> Message -> m (Response LBS.ByteString)
+sendWith manager domain apiKey message = do
+        initReq <- parseUrl $ baseUrl ++ "/" ++ domain ++ "/messages"
+        let authReq = applyBasicAuth "api" (BS.pack apiKey) initReq
+            postReq = authReq { method = "POST" }
+        res <- flip httpLbs manager =<<
+            (formDataBody (buildBase message) postReq)
+        return res
