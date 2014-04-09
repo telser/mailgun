@@ -11,6 +11,7 @@ module Rackspace.MailGun
     ) where
 
 import           Control.Failure
+import           Control.Monad.Catch                   (MonadThrow)
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Control
 import           Data.ByteString.Char8                 as BS (ByteString, pack,
@@ -63,13 +64,13 @@ buildBase msg = partText "from" (from msg)
              ++ partMaybeText "subject" (subject msg)
              ++ buildTail msg
 
-sendMessage :: (Failure HttpException m, MonadBaseControl IO m, MonadIO m) =>
+sendMessage :: (Failure HttpException m, MonadThrow m, MonadBaseControl IO m, MonadIO m) =>
                 String -> String -> Message -> m (Response LBS.ByteString)
 sendMessage domain apiKey message = do
         withManager $ \manager -> do
             sendWith manager domain apiKey message
 
-sendWith :: (Failure HttpException m, MonadBaseControl IO m, MonadIO m) =>
+sendWith :: (Failure HttpException m, MonadThrow m, MonadBaseControl IO m, MonadIO m) =>
                 Manager -> String -> String -> Message -> m (Response LBS.ByteString)
 sendWith manager domain apiKey message = do
         initReq <- parseUrl $ baseUrl ++ "/" ++ domain ++ "/messages"
