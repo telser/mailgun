@@ -10,18 +10,13 @@ module Rackspace.MailGun
     , sendWith
     ) where
 
-import           Control.Failure
-import           Control.Monad.Catch                   as C (MonadThrow)
+import           Control.Monad.Catch
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Control
-import           Data.ByteString.Char8                 as BS (ByteString, pack,
-                                                              putStrLn)
-import qualified Data.ByteString.Lazy.Char8            as LBS (ByteString)
-import           Data.Conduit
-import qualified Data.Conduit.List                     as CL
-import           Data.Text                             as T (Text, concat, pack)
-import           Data.Text.Encoding                    (encodeUtf8)
-import           Network                               (withSocketsDo)
+import qualified Data.ByteString.Char8                 as BS
+import qualified Data.ByteString.Lazy.Char8            as LBS
+import           Data.Text
+import           Data.Text.Encoding
 import           Network.HTTP.Client.MultipartFormData
 import           Network.HTTP.Conduit
 
@@ -64,14 +59,14 @@ buildBase msg = partText "from" (from msg)
              ++ partMaybeText "subject" (subject msg)
              ++ buildTail msg
 
-sendMessage :: (Failure HttpException m, C.MonadThrow m, MonadBaseControl IO m, MonadIO m) =>
+sendMessage :: (MonadIO m, MonadBaseControl IO m, MonadThrow m) =>
                 String -> String -> Message -> m (Response LBS.ByteString)
 sendMessage domain apiKey message = do
         withManager $ \manager -> do
             sendWith manager domain apiKey message
 
-sendWith :: (Failure HttpException m, C.MonadThrow m, MonadBaseControl IO m, MonadIO m) =>
-                Manager -> String -> String -> Message -> m (Response LBS.ByteString)
+sendWith :: (MonadIO m, MonadBaseControl IO m, MonadThrow m) =>
+            Manager -> String -> String -> Message -> m (Response LBS.ByteString)
 sendWith manager domain apiKey message = do
         initReq <- parseUrl $ baseUrl ++ "/" ++ domain ++ "/messages"
         let authReq = applyBasicAuth "api" (BS.pack apiKey) initReq

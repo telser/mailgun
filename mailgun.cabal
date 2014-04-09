@@ -1,5 +1,5 @@
 name:                mailgun
-version:             0.1.0.2
+version:             0.1.0.3
 synopsis:            Connector to Rackspace's Mailgun Service
 description:         Allows users to directly access Rackspace's Mailgun service
                      without having to work with the underlying REST service.
@@ -12,14 +12,13 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
+    ghc-options:        -Wall
     exposed-modules:    Rackspace.MailGun 
-    -- other-modules:       
-    -- other-extensions:    
     hs-source-dirs:     src      
     default-language:   Haskell2010
     build-depends:      base >=4.6 && <4.7
                     ,   text >=1.1.0.1
-                    ,   conduit >=1.0.17.1
+                    ,   conduit >=1.1.0
                     ,   http-conduit >=2.0.0.8
                     ,   bytestring >=0.10.0.2
                     ,   network >=2.4.2.2
