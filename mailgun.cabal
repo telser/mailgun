@@ -11,6 +11,13 @@ category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
 
+homepage:            https://github.com/AndrewRademacher/mailgun
+bug-reports:         https://github.com/AndrewRademacher/mailgun/issues
+
+source-repository head
+    type:            git
+    location:        https://github.com/AndrewRademacher/mailgun.git
+
 library
     ghc-options:        -Wall
     exposed-modules:    Rackspace.MailGun 
